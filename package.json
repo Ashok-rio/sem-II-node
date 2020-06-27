@@ -1,0 +1,23 @@
+{
+  "name": "sem-II-node",
+  "version": "1.0.0",
+  "description": "semester-2 node repository",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ashok-rio/sem-II-node.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ashok-rio/sem-II-node/issues"
+  },
+  "homepage": "https://github.com/Ashok-rio/sem-II-node#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
