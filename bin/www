@@ -38,9 +38,10 @@ server.on('listening', onListening);
 mongoose.Promise = global.Promise;
 
 // Connecting to the database
-mongoose.connect(CONFIG.db_uri, {
-    useNewUrlParser: true,useUnifiedTopology: true 
-}).then(() => {
+mongoose.set('useCreateIndex', true);
+mongoose.connect(CONFIG.db_uri,{ useUnifiedTopology: true,
+  useNewUrlParser: true,
+  }).then(() => {
     console.log("Connect database at MONGODB_URI");    
 }).catch(err => {
     console.log('Could not connect to the database. Exiting now...', err);
