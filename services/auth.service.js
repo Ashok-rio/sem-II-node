@@ -1,4 +1,4 @@
-const {User} = require('../models')
+const User = require('../models/User')
 const validator = require('validator')
 const {isEmail, isMobilePhone} = validator
 const {to, TE} = require('../services/util.service')

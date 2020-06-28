@@ -1,10 +1,9 @@
 const express 		= require('express');
-const logger 	    = require('morgan');
 const bodyParser 	= require('body-parser');
 const passport      = require('passport');
 const pe            = require('parse-error');
 const cors          = require('cors');
-
+const api=require('./routes/api')
 
 
 const app = express();
@@ -25,7 +24,7 @@ console.log("Environment:",CONFIG.app)
 // CORS
 app.use(cors());
 
-
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -47,5 +46,6 @@ app.use(function(err, req, res, next) {
     }
   
 });
+
 
 module.exports = app;
