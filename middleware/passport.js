@@ -1,5 +1,5 @@
 const { ExtractJwt, Strategy } = require('passport-jwt');
-const { User }      = require('../models/User');
+const  User       = require('../models/User');
 const CONFIG        = require('../config/config');
 const {to}          = require('../services/util.service.js');
 

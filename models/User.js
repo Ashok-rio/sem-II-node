@@ -37,6 +37,10 @@ let UserSchema = mongoose.Schema({
                 arguments: [7, 20],
                 message: 'Not a valid phone number.',
             })],
+    },
+    admin:{
+        type:Boolean,
+        required:true
     }
 },{timestamps: true})
 
