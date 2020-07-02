@@ -5,8 +5,11 @@ const router = express.Router()
 const UserController = require('../controllers/User.controller')
 
 const ProductController=require('../controllers/ProductController')
+
 const  CartController=require('../controllers/CartController')
 const slickCont = require('../controllers/Slick.controller')
+
+const AddressController=require('../controllers/address')
 const passport = require('passport')
 const path = require('path')
 
@@ -35,6 +38,11 @@ router.delete('/product/delete',authUser,ProductController.deleteProduct)
 router.get('/product/get/:id',authUser,ProductController.getProductById)
 router.get('/product/getAll',authUser,ProductController.getALLProduct)
 
+//address API's
+router.post('/address/create',authUser,AddressController.Create);
+router.get('/address/get',authUser,AddressController.find);
+router.post('/address/getById',authUser,AddressController.findById);
+router.post('/address/drop',authUser,AddressController.delete);
 
 //cart API's
 
