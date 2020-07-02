@@ -51,6 +51,7 @@ module.exports.createProduct = async (req, res) => {
 
     let product = Product({
         name: body.name,
+        url:body.url,
         size: body.size,
         quantity: body.quantity,
         price: body.price,
@@ -177,7 +178,7 @@ module.exports.updateProduct = async (req, res) => {
 }
 
 module.exports.getProductById = async (req, res) => {
-    const user = req.user;
+    
     const id = req.params.id
 
     if (isNull(id)) {
@@ -209,7 +210,6 @@ module.exports.getProductById = async (req, res) => {
 }
 
 module.exports.getALLProduct = async (req, res) => {
-    const user = req.user;
 
     let productFind;
 

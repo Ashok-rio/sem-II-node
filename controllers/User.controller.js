@@ -1,3 +1,4 @@
+
 // User Contollers
 const User = require('../models/User')
 const authService = require('../services/auth.service')
@@ -128,8 +129,10 @@ module.exports.userRegsiter = async (req, res) => {
 
 module.exports.login = async (req, res) => {
     let err, user
+    
     const email = req.body.email
     const password = req.body.password
+    // console.log(email,password);
 
     if (isNull(email)) {
         return ReE(res, { message: 'Please enter an email id or phone number.' },
