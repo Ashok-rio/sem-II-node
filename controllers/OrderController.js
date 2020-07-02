@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Order = require("../models/Order");
+const Address = require("./../models/Address")
 const Cart = require("../models/Cart");
 const { to, ReE, ReS } = require("../services/util.service");
 const HttpStatus = require("http-status");
@@ -7,7 +8,7 @@ const bodyParser = require("body-parser");
 
 exports.createOrder = async (req, res) => {
   const users = req.user;
-  let err, user, orders, cart,address;
+  let err, user, orders, cart,address,carts;
   let total = 0;
   [err, user] = await to(User.findOne({ _id: users._id }));
   if (err) {
@@ -23,7 +24,7 @@ exports.createOrder = async (req, res) => {
     if (!cart) {
       return ReE(res, { message: "Product not found" }, HttpStatus.BAD_REQUEST);
     } else {
-        [err,address] = await to(Address.findOne({_id:body.address}));
+        [err,address] = await to(Address.findOne({_id:req.body.address}));
         if(err){
             return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -49,7 +50,7 @@ exports.createOrder = async (req, res) => {
               };
               [err, orders] = await to(Order.create(orderData));
               if (err) {
-                return ReE(res, "hi"+err, HttpStatus.INTERNAL_SERVER_ERROR);
+                return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
               }
               if (!orders) {
                 return ReE(
@@ -58,7 +59,16 @@ exports.createOrder = async (req, res) => {
                   HttpStatus.BAD_REQUEST
                 );
               } else {
-                return ReS(res, orders, HttpStatus.OK);
+                [err,carts] = await to(Cart.deleteMany({user:users._id}));
+                if(err){
+                  return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+                if(!carts.deletedCount === 0){
+                  return ReE(res, {message:"order placed but not deleted from cart page"}, HttpStatus.BAD_REQUEST);
+                }
+                else{
+                  return ReS(res, orders, HttpStatus.OK);
+                }
               }
         }
     }

@@ -49,6 +49,7 @@ exports.find = async (req, res) => {
   let err, address, user;
 
   [err, user] = await to(User.findOne({ _id: users._id }));
+  console.log(user)
   if (err) {
     return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
   }
@@ -83,17 +84,16 @@ exports.findById = async (req, res) => {
   if (!user) {
     return ReE(res, { message: "user Not Found" }, HttpStatus.BAD_REQUEST);
   } else {
-    [err, address] = await to(Address.findOne({ _id: body.id }));
+    [err, address] = await to(Address.findOne({ _id: body.id ,user:users._id}));
     if (err) {
       return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     if (!address) {
-        console.log(address)
       return ReE(res, { message: "address Not Found" }, HttpStatus.BAD_REQUEST);
     } else {
       return ReS(
         res,
-        { message: "founded Successfully", address: address },
+        address,
         HttpStatus.OK
       );
     }
@@ -126,6 +126,47 @@ exports.delete = async (req, res) => {
       return ReS(
         res,
         { message: "deleted Successfully", address: address },
+        HttpStatus.OK
+      );
+    }
+  }
+};
+
+exports.edit = async (req, res) => {
+  console.log(req.body._id)
+  const body = req.body;
+  const data = {
+    name:body.name,
+  phone:body.phone,
+  address:body.address,
+  town:body.town,
+  city:body.city,
+  state:body.state,
+  type:body.type,
+  }
+  const users = req.user;
+  let err, address, user;
+  [err, user] = await to(User.findOne({ _id: users._id }));
+  if (err) {
+    return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+  if (!user) {
+    return ReE(res, { message: "user Not Found" }, HttpStatus.BAD_REQUEST);
+  } else {
+    [err, address] = await to(Address.updateOne({_id:body._id,user:users._id},{$set:data}));
+    if (err) {
+      return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    if (address.nModified === 0) {
+      return ReE(
+        res,
+        { message: address },
+        HttpStatus.BAD_REQUEST
+      );
+    } else {
+      return ReS(
+        res,
+        { message: "modified Successfully", address: address },
         HttpStatus.OK
       );
     }

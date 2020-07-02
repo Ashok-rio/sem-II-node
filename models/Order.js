@@ -35,6 +35,10 @@ products:[
 total:{
     type:Number,
     required:true
+},
+payment:{
+    type:Boolean,
+    default:false
 }
 })
 module.exports=User=mongoose.model('Order',OrderSchema)
