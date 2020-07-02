@@ -10,8 +10,13 @@ const validator = require('validator')
 const { isEmail } = validator
 
 module.exports.userRegsiter = async (req, res) => {
+  
+    
     const body = req.body;
-    console.log(body); //body
+
+    console.log(body);
+    
+
     let err,user
     if (isNull(body.name) || body.name.length < 5) {
         return ReE(res, 'Please enter a name with minimum 5 characters',
