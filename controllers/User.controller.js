@@ -10,7 +10,6 @@ const { isEmail } = validator
 
 module.exports.userRegsiter = async (req, res) => {
     const body = req.body;
-    console.log(body);
     let err,user
     if (isNull(body.name) || body.name.length < 5) {
         return ReE(res, 'Please enter a name with minimum 5 characters',
@@ -66,7 +65,6 @@ module.exports.userRegsiter = async (req, res) => {
     //check email was already exist or not
 
     [err, userEmail] = await to(User.findOne( { email: body.email }))
-    console.log(userEmail);
     
     if (err) {
         return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR)
@@ -93,13 +91,25 @@ module.exports.userRegsiter = async (req, res) => {
         }, HttpStatus.BAD_REQUEST)
     }
 
-    var userData = User({
-        name: body.name,
-        email: body.email,
-        phone: body.phone,
-        password: body.password
-    })
-
+    let userData ;
+    if(body.admin){
+        userData =User({
+            name: body.name,
+            email: body.email,
+            phone: body.phone,
+            password: body.password,
+            admin:true
+        })
+    }
+    else{
+        userData =User({
+            name: body.name,
+            email: body.email,
+            phone: body.phone,
+            password: body.password,
+            admin:false
+        })
+    }
     let userReg
     [err, userReg] = await to(userData.save())
     if (err) {
@@ -114,7 +124,7 @@ module.exports.userRegsiter = async (req, res) => {
 }
 
 module.exports.login = async (req, res) => {
-    let err, user, err1, roles
+    let err, user
     const email = req.body.email
     const password = req.body.password
 
@@ -158,7 +168,21 @@ module.exports.login = async (req, res) => {
                 { message: 'Invalid Username or password. please try again.' },
                 HttpStatus.BAD_REQUEST)
         }
-        if (user) {
+        if (user.admin===true) {
+            ReS(res, {
+                message: 'User logged in ',
+                user: {
+                    _id: user._id,
+                    email: user.email,
+                    phone: user.phone,
+                    name: user.name,
+                    admin:user.admin
+                },
+                token: user.getJWT(),
+            }, HttpStatus.OK)
+
+        }
+        if (user.admin===false) {
             ReS(res, {
                 message: 'User logged in ',
                 user: {
