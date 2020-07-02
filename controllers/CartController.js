@@ -224,7 +224,7 @@ module.exports.getAllCart = async (req, res) => {
     const user = req.user;
     let err, findProduct;
 
-    [err, findProduct] = await to(Cart.find({ user: user._id }))
+    [err, findProduct] = await to(Cart.find({ user: user._id }).populate('product'));
     if (err) {
         return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR)
     }
