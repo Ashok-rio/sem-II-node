@@ -27,7 +27,7 @@ module.exports.getAllSlick = async (req, res)=>{
     [err, img] = await to(Slick.find())
     if (err) return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR)
     else{
-        console.log(img)
+        
        return ReS(res, {img}, HttpStatus.OK)
     }
 }
