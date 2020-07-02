@@ -5,12 +5,10 @@ const router = express.Router()
 const UserController = require('../controllers/User.controller')
 
 const ProductController=require('../controllers/ProductController')
-<<<<<<< HEAD
 const  CartController=require('../controllers/CartController')
 const slickCont = require('../controllers/Slick.controller')
-=======
 const AddressController=require('../controllers/address')
->>>>>>> e40367e7c99d6c14730f4b6f2290d3c8146b213b
+
 const passport = require('passport')
 const path = require('path')
 
