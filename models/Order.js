@@ -4,6 +4,10 @@ user:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'User'
 },
+address:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'Address'
+},
 products:[
     {
         product:{
@@ -11,6 +15,10 @@ products:[
             ref:"Product"
         },
         productName:{
+            type:String,
+            required:true
+        },
+        url:{
             type:String,
             required:true
         },
@@ -27,6 +35,10 @@ products:[
 total:{
     type:Number,
     required:true
+},
+payment:{
+    type:Boolean,
+    default:false
 }
 })
 module.exports=User=mongoose.model('Order',OrderSchema)

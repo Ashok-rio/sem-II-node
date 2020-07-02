@@ -15,6 +15,10 @@ let CartSchema = mongoose.Schema({
         type:Number,
         required:true
     },
+    url:{
+        type:String,
+        required:true
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

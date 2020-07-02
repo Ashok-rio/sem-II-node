@@ -42,6 +42,7 @@ router.post('/address/create',authUser,AddressController.Create);
 router.get('/address/get',authUser,AddressController.find);
 router.post('/address/getById',authUser,AddressController.findById);
 router.post('/address/drop',authUser,AddressController.delete);
+router.put('/address/edit',authUser,AddressController.edit);
 
 //cart API's
 
