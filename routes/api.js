@@ -3,8 +3,11 @@ const express = require('express')
 const router = express.Router()
 
 const UserController = require('../controllers/User.controller')
+
 const ProductController=require('../controllers/ProductController')
 const AddressController=require('../controllers/AddressController')
+const  CartController=require('../controllers/CartController')
+const slickCont = require('../controllers/Slick.controller')
 const passport = require('passport')
 const path = require('path')
 
@@ -18,6 +21,8 @@ const authUser = jwtAuth(passport).authenticate("jwt", { session: false });
 
 router.post('/user/register', UserController.userRegsiter)
 router.post('/user/login', UserController.login)
+router.put('/user/update', UserController.updateUser)
+
 
 //product API's
 
@@ -35,5 +40,19 @@ router.post('/address/create',authUser,AddressController.Create);
 router.get('/address/get',authUser,AddressController.find);
 router.post('/address/getById',authUser,AddressController.findById);
 router.post('/address/drop',authUser,AddressController.delete);
+
+//cart API's
+
+router.post('/cart/create',authUser,CartController.createCart)
+router.put('/cart/update',authUser,CartController.updateCart)
+router.get('/cart/getALL',authUser,CartController.getAllCart)
+router.get('/cart/get/:id',authUser,CartController.getCartByID)
+router.delete('/cart/delete',authUser,CartController.deleteCart)
+
+
+// slick
+router.post('/slick/create', slickCont.create)
+router.get('/slick/getAll', slickCont.getAllSlick)
+router.get('./slick/get', slickCont.getSlick)
 
 module.exports = router
