@@ -5,6 +5,7 @@ const router = express.Router()
 const UserController = require('../controllers/User.controller')
 
 const ProductController=require('../controllers/ProductController')
+
 const AddressController=require('../controllers/AddressController')
 const  CartController=require('../controllers/CartController')
 const slickCont = require('../controllers/Slick.controller')
@@ -33,8 +34,8 @@ router.put('/product/update',authUser,ProductController.updateProduct)
 router.delete('/product/delete',authUser,ProductController.deleteProduct)
 
 //product API's for both
-router.get('/product/get/:id',authUser,ProductController.getProductById)
-router.get('/product/getAll',authUser,ProductController.getALLProduct)
+router.get('/product/get/:id',ProductController.getProductById)
+router.get('/product/getAll',ProductController.getALLProduct)
 
 //address API's
 router.post('/address/create',authUser,AddressController.Create);

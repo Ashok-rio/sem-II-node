@@ -1,3 +1,4 @@
+
 // User Contollers
 const User = require('../models/User')
 const authService = require('../services/auth.service')
@@ -12,6 +13,7 @@ module.exports.userRegsiter = async (req, res) => {
   
     
     const body = req.body;
+
 
     let err,user
     if (isNull(body.name) || body.name.length < 5) {
@@ -128,8 +130,10 @@ module.exports.userRegsiter = async (req, res) => {
 
 module.exports.login = async (req, res) => {
     let err, user
+    
     const email = req.body.email
     const password = req.body.password
+    // console.log(email,password);
 
     if (isNull(email)) {
         return ReE(res, { message: 'Please enter an email id or phone number.' },
@@ -200,9 +204,11 @@ module.exports.login = async (req, res) => {
         }
     }
 }
+
 module.exports.updateUser = async(req, res)=>{
     const body = req.body;
     const decoded = req.user;
+    
    let err,user
    if (isNull(body.name) || body.name.length < 5) {
        return ReE(res, 'Please enter a name with minimum 5 characters',
