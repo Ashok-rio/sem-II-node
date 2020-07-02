@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 
 exports.createOrder = async (req, res) => {
   const users = req.user;
-  let err, user, orders, cart;
+  let err, user, orders, cart,address;
   let total = 0;
   [err, user] = await to(User.findOne({ _id: users._id }));
   if (err) {
@@ -23,33 +23,43 @@ exports.createOrder = async (req, res) => {
     if (!cart) {
       return ReE(res, { message: "Product not found" }, HttpStatus.BAD_REQUEST);
     } else {
-      let order = cart.map((x) => {
-        total = Math.floor(total + (x.quantity * x.price));
-        return {
-          product: x.product,
-          productName: x.productName,
-          qty: x.quantity,
-          price: x.price,
-        };
-      });
-      let orderData = {
-        user: users._id,
-        products: order,
-        total: total,
-      };
-      [err, orders] = await to(Order.create(orderData));
-      if (err) {
-        return ReE(res, "hi"+err, HttpStatus.INTERNAL_SERVER_ERROR);
-      }
-      if (!orders) {
-        return ReE(
-          res,
-          { message: "Oredr not placed" },
-          HttpStatus.BAD_REQUEST
-        );
-      } else {
-        return ReS(res, orders, HttpStatus.OK);
-      }
+        [err,address] = await to(Address.findOne({_id:body.address}));
+        if(err){
+            return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if(!address){
+            return ReE(res, {message:"Address not found"}, HttpStatus.BAD_REQUEST);
+        }
+        else{
+            let order = cart.map((x) => {
+                total = Math.floor(total + (x.quantity * x.price));
+                return {
+                  product: x.product,
+                  productName: x.productName,
+                  qty: x.quantity,
+                  price: x.price,
+                };
+              });
+              let orderData = {
+                user: users._id,
+                address:address._id,
+                products: order,
+                total: total,
+              };
+              [err, orders] = await to(Order.create(orderData));
+              if (err) {
+                return ReE(res, "hi"+err, HttpStatus.INTERNAL_SERVER_ERROR);
+              }
+              if (!orders) {
+                return ReE(
+                  res,
+                  { message: "Oredr not placed" },
+                  HttpStatus.BAD_REQUEST
+                );
+              } else {
+                return ReS(res, orders, HttpStatus.OK);
+              }
+        }
     }
   }
 };
