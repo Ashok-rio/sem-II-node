@@ -1,9 +1,10 @@
-const User = require("./../models/User");
-const Address = require("./../models/address");
+const User = require("../models/User");
+const Address = require("../models/Address");
 const { to, ReE, ReS } = require("../services/util.service");
 const HttpStatus = require("http-status");
 
 exports.Create = async (req, res) => {
+    console.log("hi")
   const body = req.body;
   let err, user, address;
   const users = req.user;

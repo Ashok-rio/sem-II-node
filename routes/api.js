@@ -4,15 +4,14 @@ const router = express.Router()
 
 const UserController = require('../controllers/User.controller')
 const ProductController=require('../controllers/ProductController')
-const AddressController=require('../controllers/address')
+const AddressController=require('../controllers/AddressController')
 const passport = require('passport')
 const path = require('path')
 
 const jwtAuth = require('../middleware/passport')
 const { route } = require('../app')
 
-const authUser = jwtAuth(passport).authenticate('jwt', {session: false})
-
+const authUser = jwtAuth(passport).authenticate("jwt", { session: false });
 //user and admin API's
 
 //user registration
