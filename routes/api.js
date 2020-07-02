@@ -4,6 +4,7 @@ const router = express.Router()
 
 const UserController = require('../controllers/User.controller')
 const ProductController=require('../controllers/ProductController')
+const  CartController=require('../controllers/CartController')
 const passport = require('passport')
 const path = require('path')
 
@@ -30,5 +31,13 @@ router.delete('/product/delete',authUser,ProductController.deleteProduct)
 router.get('/product/get/:id',authUser,ProductController.getProductById)
 router.get('/product/getAll',authUser,ProductController.getALLProduct)
 
+
+//cart API's
+
+router.post('/cart/create',authUser,CartController.createCart)
+router.put('/cart/update',authUser,CartController.updateCart)
+router.get('/cart/getALL',authUser,CartController.getAllCart)
+router.get('/cart/get/:id',authUser,CartController.getCartByID)
+router.delete('/cart/delete',authUser,CartController.deleteCart)
 
 module.exports = router

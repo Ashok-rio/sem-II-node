@@ -23,4 +23,4 @@ let ProductSchema=mongoose.Schema({
         required:true
     }
 },{timestamps: true})
-module.exports= Product=mongoose.model('Product',ProductSchema)
+module.exports= Product=mongoose.model('Products',ProductSchema)

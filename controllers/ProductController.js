@@ -103,16 +103,26 @@ module.exports.updateProduct = async (req, res) => {
     }
     let updateData = {
         name: productFind.name,
-        size: productFind.size,
         quantity: productFind.quantity,
+        size: productFind.size,
         price: productFind.price,
         color: productFind.color
     }
-
     if (body.name) {
         if (isNull(body.name) || body.name.length < 5) {
             return ReE(res, { message: 'Please enter a product name with minimum 5 characters' },
                 HttpStatus.BAD_REQUEST)
+        }
+        let productGet
+        [err, productGet] = await to(Product.findOne({ name: body.name }))
+        if (err) {
+            return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+        if (productGet) {
+            if (productGet._id != body.id) {
+                return ReE(res, { message: 'Product name was already taken,Please enter any other name' },
+                    HttpStatus.BAD_REQUEST)
+            }
         }
         updateData.name = body.name
     }
@@ -123,26 +133,31 @@ module.exports.updateProduct = async (req, res) => {
         }
         updateData.price = body.price
     }
-
     if (body.quantity) {
         if (isNull(body.quantity)) {
             return ReE(res, { message: 'If you want to update quantity, Please enter your product quantity' }, HttpStatus.BAD_REQUEST)
         }
         updateData.quantity = body.quantity
     }
+
     if (body.size) {
         if (isNull(body.size)) {
             return ReE(res, { message: 'If you want to update size, Please enter your product size' }, HttpStatus.BAD_REQUEST)
         }
         updateData.size = body.size
     }
+
     if (body.color) {
-        if (isNull(body.size)) {
+        if (isNull(body.color)) {
             return ReE(res, { message: 'If you want to update color, Please enter your product color' }, HttpStatus.BAD_REQUEST)
         }
         updateData.color = body.color
     }
 
+
+    if (isNull(updateData)) {
+        return ReE(res, { message: "Please enter the fill all input container" }, HttpStatus.BAD_REQUEST)
+    }
     let updatePro
 
     [err, updatePro] = await to(Product.updateOne({ _id: body.id }, { $set: updateData }))
@@ -155,9 +170,8 @@ module.exports.updateProduct = async (req, res) => {
         return ReS(res, {
             message: 'Product created Successfully',
             product: {
-                status: updatePro,
-                docs: updateData
-            },
+                status: updatePro
+            }
         }, HttpStatus.OK)
     }
 }
@@ -250,7 +264,7 @@ module.exports.deleteProduct = async (req, res) => {
         return ReE(res, { message: 'Cannot find your product', error: err }, HttpStatus.BAD_REQUEST)
     }
     let deletePro
-    [err, deletePro] = await to(Product.deleteOne({ _id:body.id }))
+    [err, deletePro] = await to(Product.deleteOne({ _id: body.id }))
     if (err) {
         return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR)
     }
