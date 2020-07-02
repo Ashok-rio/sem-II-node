@@ -4,7 +4,7 @@ const CONFIG        = require('../config/config');
 const {to}          = require('../services/util.service.js');
 
 module.exports = function(passport){
-    console.log("hi");
+   
     var opts = {};
     opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
     opts.secretOrKey = CONFIG.jwt_encryption;
