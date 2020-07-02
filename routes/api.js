@@ -8,6 +8,7 @@ const ProductController=require('../controllers/ProductController')
 const AddressController=require('../controllers/AddressController')
 const  CartController=require('../controllers/CartController')
 const slickCont = require('../controllers/Slick.controller')
+const OrderController = require('./../controllers/OrderController')
 const passport = require('passport')
 const path = require('path')
 
@@ -54,5 +55,11 @@ router.delete('/cart/delete',authUser,CartController.deleteCart)
 router.post('/slick/create', slickCont.create)
 router.get('/slick/getAll', slickCont.getAllSlick)
 router.get('./slick/get', slickCont.getSlick)
+
+//order
+router.post('/order/create',authUser,OrderController.createOrder)
+router.post('/order/getById',authUser,OrderController.getById)
+router.get('/order/get',authUser,OrderController.getAll)
+router.delete('/order/drop',authUser,OrderController.deleteOrder)
 
 module.exports = router

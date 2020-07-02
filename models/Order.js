@@ -4,7 +4,7 @@ user:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'User'
 },
-product:[
+products:[
     {
         product:{
             type:mongoose.Schema.Types.ObjectId,
