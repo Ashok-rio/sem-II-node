@@ -38,6 +38,7 @@ exports.createOrder = async (req, res) => {
                   productName: x.productName,
                   qty: x.quantity,
                   price: x.price,
+                  url:x.url
                 };
               });
               let orderData = {

@@ -47,6 +47,7 @@ module.exports.createCart = async (req, res) => {
         product: findProduct.id,
         productName:findProduct.name,
         price:findProduct.price,
+        url:findProduct.url,
         user: user._id,
         quantity: body.quantity
     })
