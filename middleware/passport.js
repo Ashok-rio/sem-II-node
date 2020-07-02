@@ -4,10 +4,10 @@ const CONFIG        = require('../config/config');
 const {to}          = require('../services/util.service.js');
 
 module.exports = function(passport){
+    console.log("hi");
     var opts = {};
     opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
     opts.secretOrKey = CONFIG.jwt_encryption;
-
     passport.use(new Strategy(opts, async function(jwt_payload, done){
         let err, user;
         [err, user] = await to(User.findById(jwt_payload.user_id));

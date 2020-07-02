@@ -6,18 +6,17 @@ const UserController = require('../controllers/User.controller')
 
 const ProductController=require('../controllers/ProductController')
 
+const AddressController=require('../controllers/AddressController')
 const  CartController=require('../controllers/CartController')
 const slickCont = require('../controllers/Slick.controller')
-
-const AddressController=require('../controllers/address')
+const OrderController = require('./../controllers/OrderController')
 const passport = require('passport')
 const path = require('path')
 
 const jwtAuth = require('../middleware/passport')
 const { route } = require('../app')
 
-const authUser = jwtAuth(passport).authenticate('jwt', {session: false})
-
+const authUser = jwtAuth(passport).authenticate("jwt", { session: false });
 //user and admin API's
 
 //user registration
@@ -57,5 +56,11 @@ router.delete('/cart/delete',authUser,CartController.deleteCart)
 router.post('/slick/create', slickCont.create)
 router.get('/slick/getAll', slickCont.getAllSlick)
 router.get('./slick/get', slickCont.getSlick)
+
+//order
+router.post('/order/create',authUser,OrderController.createOrder)
+router.post('/order/getById',authUser,OrderController.getById)
+router.get('/order/get',authUser,OrderController.getAll)
+router.delete('/order/drop',authUser,OrderController.deleteOrder)
 
 module.exports = router
