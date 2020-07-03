@@ -2,7 +2,7 @@
 // User Contollers
 const User = require('../models/User')
 const authService = require('../services/auth.service')
-const { to, ReE, ReS,TE } = require('../services/util.service')
+const { to, ReE, ReS, } = require('../services/util.service')
 const CONFIG = require('../config/config')
 const { isNull } = require('../services/util.service')
 const HttpStatus = require('http-status')
@@ -293,6 +293,19 @@ module.exports.updateUser = async(req, res)=>{
             message: 'updated Successfully',
             user: body,
             response:userUp,
+        }, HttpStatus.OK)
+    }
+}
+
+exports.getUser = async(req, res)=>{
+    let decode = req.user
+    let err, user
+    [err, user] = await to(User.findOne({email:decode.email}))
+    if(err)  return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR)
+    else if(user){
+        return ReS(res, {
+            message: 'fetched Successfully',
+            user: user,
         }, HttpStatus.OK)
     }
 }

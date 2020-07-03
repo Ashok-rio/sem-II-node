@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-
-let ratingSchema = mongoose.Schema({
+const Schema = mongoose.Schema
+let ratingSchema = new Schema({
     product:{
         type: Schema.Types.ObjectId, ref: 'Product'
     },

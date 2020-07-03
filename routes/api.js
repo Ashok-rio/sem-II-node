@@ -8,7 +8,8 @@ const ProductController=require('../controllers/ProductController')
 
 const AddressController=require('../controllers/AddressController')
 const  CartController=require('../controllers/CartController')
-const OrderController = require('./../controllers/OrderController')
+const OrderController = require('../controllers/OrderController')
+const ratingontroller = require('../controllers/ratingController')
 const passport = require('passport')
 const path = require('path')
 
@@ -23,6 +24,7 @@ const authUser = jwtAuth(passport).authenticate("jwt", { session: false });
 router.post('/user/register', UserController.userRegsiter)
 router.post('/user/login', UserController.login)
 router.put('/user/update', authUser,UserController.updateUser)
+router.get('/user/get', authUser, UserController.getUser)
 // slick
 router.post('/slick/create', slickCont.create)
 router.get('/slick/getAll', slickCont.getAllSlick)
@@ -60,4 +62,7 @@ router.post('/order/getById',authUser,OrderController.getById)
 router.get('/order/get',authUser,OrderController.getAll)
 router.delete('/order/drop',authUser,OrderController.deleteOrder)
 
+//rating
+router.post('/rating/create',authUser,ratingontroller.createRating)
+router.get('/rating/get',ratingontroller.getRating)
 module.exports = router
