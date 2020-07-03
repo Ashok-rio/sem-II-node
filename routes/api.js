@@ -24,8 +24,7 @@ const authUser = jwtAuth(passport).authenticate("jwt", { session: false });
 router.post('/user/register', UserController.userRegsiter)
 router.post('/user/login', UserController.login)
 router.put('/user/update', UserController.updateUser)
-
-
+router.get('/user/get',authUser,UserController.getUserData)
 //product API's
 
 //product API's only for Admin

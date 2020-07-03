@@ -279,3 +279,39 @@ module.exports.updateUser = async(req, res)=>{
        }, HttpStatus.OK)
    }
 }
+
+module.exports.getUserData=async(req,res)=>{
+    const user=req.user;
+    let err,users
+    [err,users]=await to(User.find({_id:user._id}));
+    if (err) {
+        return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+    if(!users){
+        return ReE(res, {
+            message: 'User not found',
+        }, HttpStatus.BAD_REQUEST)
+    }
+
+    
+    if (users[0].admin===true) {
+        return ReS(res, {
+            message: 'admin data',
+            user: {
+                name:user.name,
+                phone:user.phone,
+                email:user.email,
+                admin:user.admin
+            }
+        }, HttpStatus.OK)
+    }else{
+        return ReS(res, {
+            message: 'user data',
+            user: {
+                name:user.name,
+                phone:user.phone,
+                email:user.email
+            }
+        }, HttpStatus.OK)
+    }
+}

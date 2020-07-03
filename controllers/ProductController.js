@@ -35,6 +35,12 @@ module.exports.createProduct = async (req, res) => {
         return ReE(res, { message: 'please enter your product price' }, HttpStatus.BAD_REQUEST)
     }
 
+    if (isNull(body.url)) {
+        return ReE(res, { message: 'please enter your product url' }, HttpStatus.BAD_REQUEST)
+    }
+    console.log(body);
+    
+
     if (isNull(body.quantity)) {
         return ReE(res, { message: 'please enter your product quantity' }, HttpStatus.BAD_REQUEST)
     }
@@ -53,9 +59,10 @@ module.exports.createProduct = async (req, res) => {
         name: body.name,
         url:body.url,
         size: body.size,
-        quantity: body.quantity,
-        price: body.price,
-        color: body.color
+        quantity:Number(body.quantity),
+        price: Number(body.price),
+        color: body.color,
+        url:body.url
     })
 
     let createPro
@@ -107,7 +114,8 @@ module.exports.updateProduct = async (req, res) => {
         quantity: productFind.quantity,
         size: productFind.size,
         price: productFind.price,
-        color: productFind.color
+        color: productFind.color,
+        url:productFind.url
     }
     if (body.name) {
         if (isNull(body.name) || body.name.length < 5) {
@@ -154,6 +162,13 @@ module.exports.updateProduct = async (req, res) => {
         }
         updateData.color = body.color
     }
+    if (body.url) {
+        if (isNull(body.color)) {
+            return ReE(res, { message: 'If you want to update url, Please enter your product url' }, HttpStatus.BAD_REQUEST)
+        }
+        updateData.url = body.url
+    }
+
 
 
     if (isNull(updateData)) {
