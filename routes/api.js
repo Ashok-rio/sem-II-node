@@ -60,7 +60,7 @@ router.get('./slick/get', slickCont.getSlick)
 
 //order
 router.post('/order/create',authUser,OrderController.createOrder)
-router.post('/order/getById',authUser,OrderController.getById)
+router.get('/order/get/:id',authUser,OrderController.getById)
 router.get('/order/get',authUser,OrderController.getAll)
 router.delete('/order/drop',authUser,OrderController.deleteOrder)
 
