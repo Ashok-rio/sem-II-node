@@ -24,8 +24,7 @@ const authUser = jwtAuth(passport).authenticate('jwt', {session: false})
 router.post('/user/register', UserController.userRegsiter)
 router.post('/user/login', UserController.login)
 router.put('/user/update', UserController.updateUser)
-
-
+router.get('/user/get',authUser,UserController.getUserData)
 //product API's
 
 //product API's only for Admin
@@ -34,8 +33,8 @@ router.put('/product/update',authUser,ProductController.updateProduct)
 router.delete('/product/delete',authUser,ProductController.deleteProduct)
 
 //product API's for both
-router.get('/product/get/:id',authUser,ProductController.getProductById)
-router.get('/product/getAll',authUser,ProductController.getALLProduct)
+router.get('/product/get/:id',ProductController.getProductById)
+router.get('/product/getAll',ProductController.getALLProduct)
 
 //address API's
 router.post('/address/create',authUser,AddressController.Create);
