@@ -126,7 +126,7 @@ exports.getAll = async (req, res) => {
     ReE(res, { message: "user not found" }, HttpStatus.BAD_REQUEST);
   } else {
     [err, order] = await to(
-      Order.find({ user: users._id }).populate({ path: "products.product" })
+      Order.find({ user: users._id }, [], { sort: { '_id': -1 } }).populate({ path: "products.product" })
     );
     if (err) {
       ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -166,3 +166,28 @@ exports.getById = async (req, res) => {
     }
   }
 };
+
+
+exports.getAllAdmin = async (req, res) => {
+  const users = req.user;
+  console.log(users);
+  let err, user, order;
+  [err, user] = await to(User.findOne({ _id: users._id, admin: true }));
+  if (err) {
+    ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+  if (!user) {
+    ReE(res, { message: "user not found" }, HttpStatus.BAD_REQUEST);
+  } else {
+    [err, order] = await to( Order.find({}, [], { sort: { '_id': -1 } }).populate({ path: "products.product" }).populate({path:'address'}).populate({path:'user'}));
+    if (err) {
+      ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    if (!order) {
+      ReE(res, { message: "Orders not found" }, HttpStatus.BAD_REQUEST);
+    } else {
+      ReS(res, { order: order, success: true });
+    }
+  }
+};
+

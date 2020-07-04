@@ -61,8 +61,7 @@ module.exports.createProduct = async (req, res) => {
         size: body.size,
         quantity:Number(body.quantity),
         price: Number(body.price),
-        color: body.color,
-        url:body.url
+        color: body.color
     })
 
     let createPro

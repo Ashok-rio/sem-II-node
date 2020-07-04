@@ -39,6 +39,13 @@ total:{
 payment:{
     type:Boolean,
     default:false
-}
+    },
+    OrderId:{
+        type:Number,
+        default:()=>{
+            return Math.floor(Math.random()*900000000300000000000) + 1000000000000000
+        },
+        createIndexes: { unique: true }
+    }
 })
 module.exports=User=mongoose.model('Order',OrderSchema)
